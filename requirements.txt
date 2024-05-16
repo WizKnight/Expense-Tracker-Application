@@ -6,3 +6,4 @@ scikit-learn
 ipykernel
 datetime
 pytest-warnings
+pymongo
