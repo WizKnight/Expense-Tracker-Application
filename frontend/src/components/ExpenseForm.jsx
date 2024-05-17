@@ -6,6 +6,9 @@ import { TextField, Button, Container, Grid, Box, MenuItem } from '@mui/material
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import { AuthContext } from './AuthContext';
+
+const { user } = useContext(AuthContext);
 
 
 const validationSchema = Yup.object().shape({
@@ -27,7 +30,8 @@ function ExpenseForm() {
 
   const handleSubmit = async (values) => {
     try {
-      await axios.post('/api/expenses', values);
+        await axios.post('/api/expenses', {...values, user: user._id });
+
       // Optionally reset form, show success message, etc.
     } catch (error) {
       console.error('Error adding expense:', error);
