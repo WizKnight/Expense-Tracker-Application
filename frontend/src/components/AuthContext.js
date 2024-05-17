@@ -41,9 +41,11 @@ function AuthProvider({ children }) {
 
   const logout = () => {
     localStorage.removeItem('token');
-    setIsAuthenticated(false);
+    delete axios.defaults.headers.common['Authorization'];
     setUser(null);
-  };
+    setIsAuthenticated(false);
+    navigate('/login') // Redirect to the login page on logout
+};
 
   const register = async (formData) => {
     try {

@@ -4,8 +4,10 @@ import axios from 'axios';
 import ExpenseForm from './components/ExpenseForm';
 import ExpenseList from './components/ExpenseList';
 import { AppBar, Toolbar, Typography, Container, Button } from '@mui/material';
+import { Button } from '@mui/material';
 
 function App() {
+  const { isAuthenticated, logout } = useContext(AuthContext);
   const [expenses, setExpenses] = useState([]);
 
   useEffect(() => {
@@ -24,16 +26,26 @@ function App() {
 
   return (
     <Router>
-      <div>
-        <AppBar position="static">
-          <Toolbar>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              Expense Tracker
-            </Typography>
-            <Button color="inherit" component={Link} to="/">Home</Button>
-            <Button color="inherit" component={Link} to="/add">Add Expense</Button>
-          </Toolbar>
-        </AppBar>
+            <div>
+                <AppBar position="static">
+                    <Toolbar>
+                        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                            Expense Tracker
+                        </Typography>
+                        {!isAuthenticated ? (
+                            <>
+                                <Button color="inherit" component={Link} to="/login">Login</Button>
+                                <Button color="inherit" component={Link} to="/register">Register</Button>
+                            </>
+                        ) : (
+                            <>
+                                <Button color="inherit" component={Link} to="/">Home</Button>
+                                <Button color="inherit" component={Link} to="/add">Add Expense</Button>
+                                <Button color="inherit" onClick={logout}>Logout</Button>
+                            </>
+                        )}
+                    </Toolbar>
+                </AppBar>
         <Container maxWidth="md" sx={{ mt: 3 }}>
           <Routes>
             <Route path="/" element={<ExpenseList expenses={expenses} />} />
